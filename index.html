@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kirkasmuisto — Hautakivien ammattipesu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --granite:   #1C1C1E;
+      --offwhite:  #F0EDE8;
+      --gold:      #C9A84C;
+      --gold-light:#E8C96A;
+      --stone:     #6B6B6B;
+      --stone-lt:  #A8A49E;
+      --white:     #FFFFFF;
+      --card-bg:   #242424;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--granite);
+      color: var(--offwhite);
+      min-height: 100vh;
+    }
+
+    /* ── NAVBAR ──────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 72px;
+      background: rgba(28, 28, 30, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(201, 168, 76, 0.18);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    /* SVG logo — gravestone with sparkle */
+    .logo-svg {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+    .brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+    }
+    .brand-tagline {
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: var(--stone-lt);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.25rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--stone-lt);
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--granite) !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 4px;
+      font-weight: 600 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--gold-light) !important; }
+
+    /* ── HERO ────────────────────────────────────────────── */
+    #home {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+    }
+
+    /* Animated stone-texture gradient background */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,168,76,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(201,168,76,0.04) 0%, transparent 60%),
+        linear-gradient(160deg, #1a1a1c 0%, #111112 60%, #1e1c18 100%);
+      z-index: 0;
+    }
+
+    /* Subtle animated light sweep — signature element */
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        105deg,
+        transparent 30%,
+        rgba(201,168,76,0.06) 50%,
+        transparent 70%
+      );
+      animation: sheen 6s ease-in-out infinite;
+    }
+
+    @keyframes sheen {
+      0%, 100% { transform: translateX(-60%) skewX(-10deg); opacity: 0; }
+      40%       { opacity: 1; }
+      60%       { transform: translateX(120%) skewX(-10deg); opacity: 0; }
+    }
+
+    /* Hero banner image strip */
+    .hero-image-strip {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .hero-image-strip img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.18;
+      filter: grayscale(60%) contrast(1.1);
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 720px; }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.35);
+      padding: 0.35rem 1rem;
+      border-radius: 2px;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.08;
+      color: var(--offwhite);
+      margin-bottom: 1.25rem;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--stone-lt);
+      line-height: 1.7;
+      max-width: 540px;
+      margin: 0 auto 2.75rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: var(--gold);
+      color: var(--granite);
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      padding: 1rem 2.6rem;
+      border-radius: 4px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 24px rgba(201,168,76,0.28);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(201,168,76,0.38);
+    }
+    .btn-primary svg { width: 18px; height: 18px; }
+
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.75rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--stone-lt);
+    }
+    .trust-item svg { color: var(--gold); }
+
+    /* ── SECTION SHARED ──────────────────────────────────── */
+    section { padding: 5.5rem 2rem; }
+
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+    .section-lead {
+      font-size: 1rem;
+      color: var(--stone-lt);
+      line-height: 1.75;
+      max-width: 560px;
+    }
+
+    /* ── ABOUT / PALVELUT ────────────────────────────────── */
+    #palvelut {
+      background: #161618;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .palvelut-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .palvelut-text {}
+
+    .service-list {
+      list-style: none;
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+    .service-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+      font-size: 0.95rem;
+      color: var(--offwhite);
+      line-height: 1.6;
+    }
+    .service-list li span.dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: 0.45rem;
+      flex-shrink: 0;
+    }
+
+    .palvelut-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .p-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 1.4rem 1.2rem;
+    }
+    .p-card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.6rem;
+    }
+    .p-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      color: var(--gold);
+      margin-bottom: 0.35rem;
+    }
+    .p-card p {
+      font-size: 0.78rem;
+      color: var(--stone-lt);
+      line-height: 1.6;
+    }
+
+    /* ── GALLERY ─────────────────────────────────────────── */
+    #gallery {
+      background: var(--granite);
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .gallery-header {
+      max-width: 1100px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .gallery-tabs {
+      display: flex;
+      gap: 0;
+      margin-top: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .gtab {
+      padding: 0.65rem 1.4rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--stone-lt);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      background: none;
+      border-top: none; border-left: none; border-right: none;
+    }
+    .gtab:hover { color: var(--offwhite); }
+    .gtab.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    .gallery-grid {
+      max-width: 1100px;
+      margin: 2.25rem auto 0;
+    }
+
+    /* Before/after pair cards */
+    .ba-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .ba-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .ba-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .ba-slot {
+      position: relative;
+      aspect-ratio: 3/4;
+      background: #2a2a2a;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ba-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Placeholder when no image uploaded */
+    .ba-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: #222;
+    }
+    .ba-placeholder svg { opacity: 0.25; }
+    .ba-placeholder span {
+      font-size: 0.65rem;
+      color: var(--stone);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .ba-badge {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+    }
+    .badge-before {
+      background: rgba(0,0,0,0.7);
+      color: var(--stone-lt);
+    }
+    .badge-after {
+      background: rgba(201,168,76,0.85);
+      color: var(--granite);
+    }
+
+    .ba-info {
+      padding: 1rem 1.1rem;
+    }
+    .ba-info h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem;
+      color: var(--offwhite);
+      margin-bottom: 0.25rem;
+    }
+    .ba-info p {
+      font-size: 0.75rem;
+      color: var(--stone-lt);
+    }
+
+    /* Upload prompt card */
+    .ba-card.upload-prompt {
+      border: 2px dashed rgba(201,168,76,0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 260px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .ba-card.upload-prompt:hover {
+      border-color: rgba(201,168,76,0.5);
+    }
+    .ba-card.upload-prompt svg {
+      color: var(--gold);
+      opacity: 0.5;
+      margin-bottom: 0.75rem;
+    }
+    .ba-card.upload-prompt h4 {
+      font-size: 0.85rem;
+      color: var(--stone-lt);
+      margin-bottom: 0.3rem;
+    }
+    .ba-card.upload-prompt p {
+      font-size: 0.72rem;
+      color: var(--stone);
+    }
+
+    /* ── YHTEYSTIEDOT ────────────────────────────────────── */
+    #yhteystiedot {
+      background: #161618;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      margin-top: 2.5rem;
+    }
+    .c-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .c-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      background: rgba(201,168,76,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold);
+    }
+    .c-item h5 {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone-lt);
+      margin-bottom: 0.2rem;
+    }
+    .c-item p, .c-item a {
+      font-size: 0.95rem;
+      color: var(--offwhite);
+      text-decoration: none;
+    }
+    .c-item a:hover { color: var(--gold); }
+
+    /* Booking form */
+    .booking-form {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+      padding: 2rem;
+    }
+    .booking-form h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      color: var(--gold);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--stone-lt);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      color: var(--offwhite);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.65rem 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--gold);
+    }
+    .form-group select option { background: #222; }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+
+    .form-submit {
+      width: 100%;
+      background: var(--gold);
+      color: var(--granite);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.85rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.2s;
+    }
+    .form-submit:hover { background: var(--gold-light); }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer {
+      background: #111112;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    footer p {
+      font-size: 0.75rem;
+      color: var(--stone);
+    }
+    .footer-gold { color: var(--gold); }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      .palvelut-inner,
+      .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .palvelut-cards { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      section { padding: 4rem 1.25rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-bg::after { animation: none; }
+      * { transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ═══════════════════════════════════════════════ -->
+<nav>
+  <a href="#home" class="nav-brand">
+    <!-- SVG Logo: stylised gravestone with sparkle -->
+    <svg class="logo-svg" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="14" width="24" height="26" rx="12" fill="#C9A84C" opacity="0.15"/>
+      <rect x="12" y="18" width="20" height="22" rx="10" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+      <rect x="8" y="36" width="28" height="4" rx="2" fill="#C9A84C" opacity="0.4"/>
+      <!-- sparkle top -->
+      <path d="M22 10 L22.8 12.8 L25.6 13.6 L22.8 14.4 L22 17.2 L21.2 14.4 L18.4 13.6 L21.2 12.8 Z" fill="#C9A84C"/>
+      <!-- small sparkles -->
+      <circle cx="31" cy="11" r="1.2" fill="#C9A84C" opacity="0.6"/>
+      <circle cx="14" cy="9" r="0.8" fill="#C9A84C" opacity="0.4"/>
+    </svg>
+    <div class="brand-text">
+      <span class="brand-name">Kirkasmuisto</span>
+      <span class="brand-tagline">Hautakivien pesu</span>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#home" class="active">Etusivu</a></li>
+    <li><a href="#palvelut">Palvelut</a></li>
+    <li><a href="#gallery">Galleria</a></li>
+    <li><a href="#yhteystiedot" class="nav-cta">Varaa aika</a></li>
+  </ul>
+</nav>
+
+
+<!-- ══ HERO ═════════════════════════════════════════════════ -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-image-strip">
+    <!-- Replace src with your own hero photo. Placeholder uses a dark-stone Unsplash image. -->
+    <img
+      src="https://images.unsplash.com/photo-1548625361-58a9b86aa83b?w=1600&q=60&auto=format&fit=crop"
+      alt="Hautakiviä hautausmaalla"
+    />
+  </div>
+
+  <div class="hero-content">
+    <span class="hero-eyebrow">Ammattimainen hautakivien puhdistus</span>
+
+    <h1 class="hero-title">
+      Jokainen kivi<br/>ansaitsee <em>kirkaistua</em>
+    </h1>
+
+    <p class="hero-sub">
+      Palautamme hautakivien alkuperäisen kauneuden hellävaraisesti
+      ja ympäristöystävällisesti. Toimialueenamme koko Suomi.
+    </p>
+
+    <a href="#yhteystiedot" class="btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      Varaa nyt
+    </a>
+
+    <div class="hero-trust">
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Ympäristöystävälliset aineet
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Yli 10 vuoden kokemus
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+        Tyytyväisyystakuu
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ PALVELUT ══════════════════════════════════════════════ -->
+<section id="palvelut">
+  <div class="palvelut-inner">
+    <div class="palvelut-text">
+      <p class="section-label">Palvelumme</p>
+      <h2 class="section-title">Ammattitaidolla tehty puhdistus</h2>
+      <p class="section-lead">
+        Käytämme ainoastaan hautakiville soveltuvia, luontoystävällisiä
+        menetelmiä. Jokainen työ suunnitellaan kiven materiaalin ja
+        likaantumisasteen mukaan.
+      </p>
+
+      <ul class="service-list">
+        <li><span class="dot"></span>Sammalen, jäkälän ja lian poisto</li>
+        <li><span class="dot"></span>Kiven pinnoittaminen ja suojaus UV-säteilyltä</li>
+        <li><span class="dot"></span>Kirjainten ja ornamenttien puhdistus</li>
+        <li><span class="dot"></span>Kukka-asetelmien ja hauta-alueen siistiminen</li>
+        <li><span class="dot"></span>Valokuvat ennen ja jälkeen työn</li>
+      </ul>
+    </div>
+
+    <div class="palvelut-cards">
+      <div class="p-card">
+        <div class="p-card-icon">🪨</div>
+        <h4>Graniitti</h4>
+        <p>Yleisin hautakivimateriaali. Vaatii erityisaineet ja korrektit painearvot.</p>
+      </div>
+      <div class="p-card">
+        <div class="p-card-icon">🏔️</div>
+        <h4>Marmori</h4>
+        <p>Herkkä kivi joka vaatii happovapaan käsittelyn happosyöpymisen estämiseksi.</p>
+      </div>
+      <div class="p-card">
+        <div class="p-card-icon">✨</div>
+        <h4>Kiillotettu pinta</h4>
+        <p>Palauttaa alkuperäisen kiillon ja suojakalvon huolellisella käsittelyllä.</p>
+      </div>
+      <div class="p-card">
+        <div class="p-card-icon">🌿</div>
+        <h4>Ympäristöystävälliset aineet</h4>
+        <p>Kaikki kemikaalit ovat biohajoavia eikä saasta hautausmaata.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ GALLERY ═══════════════════════════════════════════════ -->
+<section id="gallery">
+  <div class="gallery-header">
+    <p class="section-label">Galleria</p>
+    <h2 class="section-title">Ennen & jälkeen</h2>
+    <p class="section-lead">
+      Lisää omat ennen- ja jälkeen-kuvasi alla oleviin paikkoihin.
+      Jokainen työ puhuu puolestaan.
+    </p>
+
+    <div class="gallery-tabs">
+      <button class="gtab active" onclick="switchTab('kaikki', this)">Kaikki työt</button>
+      <button class="gtab" onclick="switchTab('graniitti', this)">Graniitti</button>
+      <button class="gtab" onclick="switchTab('marmori', this)">Marmori</button>
+    </div>
+  </div>
+
+  <div class="gallery-grid">
+    <div class="ba-grid">
+
+      <!-- BEFORE/AFTER CARD 1 -->
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-slot">
+            <!-- Replace with your own before-image -->
+            <div class="ba-placeholder">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Ennen</span>
+            </div>
+            <span class="ba-badge badge-before">Ennen</span>
+          </div>
+          <div class="ba-slot">
+            <!-- Replace with your own after-image -->
+            <div class="ba-placeholder">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Jälkeen</span>
+            </div>
+            <span class="ba-badge badge-after">Jälkeen</span>
+          </div>
+        </div>
+        <div class="ba-info">
+          <h4>Graniittikivi — Tampere</h4>
+          <p>Sammal- ja jäkäläpoisto, kiillotettu pinta</p>
+        </div>
+      </div>
+
+      <!-- BEFORE/AFTER CARD 2 -->
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-slot">
+            <div class="ba-placeholder">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Ennen</span>
+            </div>
+            <span class="ba-badge badge-before">Ennen</span>
+          </div>
+          <div class="ba-slot">
+            <div class="ba-placeholder">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Jälkeen</span>
+            </div>
+            <span class="ba-badge badge-after">Jälkeen</span>
+          </div>
+        </div>
+        <div class="ba-info">
+          <h4>Marmorikivi — Helsinki</h4>
+          <p>Happovapaa käsittely, pintasuojaus</p>
+        </div>
+      </div>
+
+      <!-- BEFORE/AFTER CARD 3 -->
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-slot">
+            <div class="ba-placeholder">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Ennen</span>
+            </div>
+            <span class="ba-badge badge-before">Ennen</span>
+          </div>
+          <div class="ba-slot">
+            <div class="ba-placeholder">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Jälkeen</span>
+            </div>
+            <span class="ba-badge badge-after">Jälkeen</span>
+          </div>
+        </div>
+        <div class="ba-info">
+          <h4>Tummakivi — Turku</h4>
+          <p>Täyspesu, kirjainten puhdistus</p>
+        </div>
+      </div>
+
+      <!-- UPLOAD PROMPT -->
+      <div class="ba-card upload-prompt" title="Lisää kuvat suoraan HTML-tiedostoon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+        </svg>
+        <h4>Lisää omat kuvasi</h4>
+        <p>Korvaa placeholder-kuvat omilla<br/>ennen &amp; jälkeen -kuvilla</p>
+      </div>
+
+    </div><!-- /ba-grid -->
+  </div>
+</section>
+
+
+<!-- ══ YHTEYSTIEDOT / VARAUS ═════════════════════════════════ -->
+<section id="yhteystiedot">
+  <div class="contact-inner">
+    <div>
+      <p class="section-label">Ota yhteyttä</p>
+      <h2 class="section-title">Varaa pesuaika</h2>
+      <p class="section-lead">
+        Täytä lomake tai ota yhteyttä suoraan.
+        Vastaamme 1–2 arkipäivän kuluessa.
+      </p>
+
+      <div class="contact-items">
+        <div class="c-item">
+          <div class="c-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+          </div>
+          <div>
+            <h5>Puhelin</h5>
+            <a href="tel:+358401234567">+358 40 123 4567</a>
+          </div>
+        </div>
+        <div class="c-item">
+          <div class="c-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div>
+            <h5>Sähköposti</h5>
+            <a href="mailto:info@kirkasmuisto.fi">info@kirkasmuisto.fi</a>
+          </div>
+        </div>
+        <div class="c-item">
+          <div class="c-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div>
+            <h5>Toimialue</h5>
+            <p>Koko Suomi</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking form -->
+    <div class="booking-form">
+      <h3>Varaa aika</h3>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Etunimi</label>
+          <input type="text" placeholder="Matti" />
+        </div>
+        <div class="form-group">
+          <label>Sukunimi</label>
+          <input type="text" placeholder="Virtanen" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Sähköposti</label>
+        <input type="email" placeholder="matti@esimerkki.fi" />
+      </div>
+
+      <div class="form-group">
+        <label>Puhelinnumero</label>
+        <input type="tel" placeholder="+358 40 000 0000" />
+      </div>
+
+      <div class="form-group">
+        <label>Kivityyppi</label>
+        <select>
+          <option value="">Valitse kivityyppi…</option>
+          <option>Graniitti</option>
+          <option>Marmori</option>
+          <option>Kiillotettu kivi</option>
+          <option>Muu / en tiedä</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Hautausmaa ja paikkakunta</label>
+        <input type="text" placeholder="esim. Härmälän hautausmaa, Tampere" />
+      </div>
+
+      <div class="form-group">
+        <label>Lisätiedot</label>
+        <textarea placeholder="Kerro tarkemmin tilanteesta tai toiveistasi…"></textarea>
+      </div>
+
+      <button class="form-submit" type="button">Lähetä varaus</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ FOOTER ════════════════════════════════════════════════ -->
+<footer>
+  <p>&copy; 2025 <span class="footer-gold">Kirkasmuisto</span> — Kaikki oikeudet pidätetään</p>
+  <p>Y-tunnus: 1234567-8 &nbsp;·&nbsp; Tampere, Suomi</p>
+</footer>
+
+
+<script>
+  // Gallery tab switcher (visual only — filter on ba-card data-type when you add real content)
+  function switchTab(tab, el) {
+    document.querySelectorAll('.gtab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    // When you add images, add data-type="graniitti" etc. to .ba-card and filter here
+  }
+
+  // Smooth active link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  // Form submit (placeholder)
+  document.querySelector('.form-submit').addEventListener('click', () => {
+    alert('Kiitos! Otamme yhteyttä pian.');
+  });
+</script>
+
+</body>
+</html>
